@@ -1,17 +1,18 @@
 import React from 'react';
 import { useState } from 'react';
+import { Fragment } from 'react/cjs/react.production.min';
 import classes from './calculator.module.css';
 import CalculatorButton from './calculatorButton';
 
 const Calculator = () => {
   let temp = 0;
   const [result, setResult] = useState(0);
-  const [firstValue, setFirstValue] = useState(0);
+  const [number, setNumber] = useState(0);
   const [operator, setOperator] = useState('');
 
   const operatorHandler = (event) => {
     setOperator(event.target.value);
-    setFirstValue((prev) => {
+    setNumber((prev) => {
       setResult((prevResult) => {
         return prev ? prev : prevResult;
       });
@@ -24,26 +25,26 @@ const Calculator = () => {
     event.preventDefault();
     switch (operator) {
       case '+':
-        temp = Number(result) + Number(firstValue);
+        temp = Number(result) + Number(number);
         break;
       case '-':
-        temp = result - firstValue;
+        temp = result - number;
         break;
       case '*':
-        temp = result * firstValue;
+        temp = result * number;
         break;
       case '/':
-        temp = result / firstValue;
+        temp = result / number;
         break;
       default:
-        temp = firstValue ? firstValue : result;
+        temp = number ? number : result;
     }
     setResult(temp);
-    setFirstValue(0);
+    setNumber(0);
     setOperator('');
   };
   const clearValue = () => {
-    setFirstValue(0);
+    setNumber(0);
     setResult(0);
     setOperator('');
   };
@@ -51,11 +52,11 @@ const Calculator = () => {
   const numberButtonHandler = (event) => {
     event.preventDefault();
     const currentNum = event.target.value;
-    setFirstValue((prev) => {
+    setNumber((prev) => {
       let temp = 0;
       if (prev === 0 && currentNum === 0) {
         temp = 0;
-      } else if (prev === 0 && currentNum !== 0) {
+      } else if (prev % 1 === 0 && currentNum !== 0) {
         temp = Number(prev + currentNum); // becomes a number
       } else {
         temp = prev + currentNum; //concatting 2 strings
@@ -64,39 +65,41 @@ const Calculator = () => {
     });
   };
 
+  const decimalPointButtonHandler = (event) => {
+    event.preventDefault();
+
+    setNumber((prev) => {
+      return !prev.toString().includes('.') ? prev + '.' : prev;
+    });
+  };
+
   return (
-    <div className={classes.calculator}>
+    <Fragment>
       <h1>This is my calculator</h1>
-      <div>
-        <div className={classes.inputDisplay}>{firstValue}</div>
-        <div>{result}</div>
+      <div className={classes.calculator}>
         <div>
-          <CalculatorButton
-            value="+"
-            onClick={operatorHandler}
-            className="operator"
-          />
-          <CalculatorButton
-            value="-"
-            onClick={operatorHandler}
-            className="operator"
-          />
-          <CalculatorButton
-            value="*"
-            onClick={operatorHandler}
-            className="operator"
-          />
-          <CalculatorButton
-            value="/"
-            onClick={operatorHandler}
-            className="operator"
-          />
-          <CalculatorButton
-            value="="
-            onClick={equalButtonHandler}
-            className="operator"
-          />
-          <div>
+          <div className={classes.inputDisplay}>{number ? number : result}</div>
+          <div className={classes.buttonContainer}>
+            <CalculatorButton
+              value="+"
+              onClick={operatorHandler}
+              className="operator"
+            />
+            <CalculatorButton
+              value="-"
+              onClick={operatorHandler}
+              className="operator"
+            />
+            <CalculatorButton
+              value="*"
+              onClick={operatorHandler}
+              className="operator"
+            />
+            <CalculatorButton
+              value="/"
+              onClick={operatorHandler}
+              className="operator"
+            />
             <CalculatorButton
               value="7"
               onClick={numberButtonHandler}
@@ -112,8 +115,6 @@ const Calculator = () => {
               onClick={numberButtonHandler}
               className="number"
             />
-          </div>
-          <div>
             <CalculatorButton
               value="4"
               onClick={numberButtonHandler}
@@ -129,8 +130,6 @@ const Calculator = () => {
               onClick={numberButtonHandler}
               className="number"
             />
-          </div>
-          <div>
             <CalculatorButton
               value="1"
               onClick={numberButtonHandler}
@@ -146,8 +145,6 @@ const Calculator = () => {
               onClick={numberButtonHandler}
               className="number"
             />
-          </div>
-          <div>
             <CalculatorButton
               value="0"
               onClick={numberButtonHandler}
@@ -155,7 +152,7 @@ const Calculator = () => {
             />
             <CalculatorButton
               value="."
-              onClick={numberButtonHandler}
+              onClick={decimalPointButtonHandler}
               className="number"
             />
             <CalculatorButton
@@ -163,12 +160,15 @@ const Calculator = () => {
               onClick={clearValue}
               className="operator"
             />
+            <CalculatorButton
+              value="="
+              onClick={equalButtonHandler}
+              className={classes.equal}
+            />
           </div>
         </div>
-
-        <h3>Result is {result}</h3>
       </div>
-    </div>
+    </Fragment>
   );
 };
 
