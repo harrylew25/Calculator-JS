@@ -9,6 +9,17 @@
     font-size: 2.5rem;
 }
 
+.calculator {
+    width: 30vh;
+    height: 60vh;
+    display: flex;
+    border: 3px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    margin: auto;
+    align-items: center;
+}
+
 .calculator .buttonContainer {
     display: grid;
     grid-template-rows: repeat(5, 1fr);
@@ -23,10 +34,10 @@
     text-align: center;
     margin: 10px 4px 10px 0;
     padding: 10px;
-    border-radius: 1px;
+    border-radius: 50px;
 }
 
-.equal {
+.calculator .equal {
     grid-column-start: 4;
     grid-column-end: 4;
     grid-row-start: 2;
@@ -34,13 +45,11 @@
     background-color: blue;
 }
 
-.calculator {
-    width: 30vh;
-    height: 60vh;
-    display: flex;
-    border: 3px solid black;
-    border-radius: 10px;
-    padding: 5px;
-    margin: auto;
-    align-items: center;
+
+.calculator .number {
+    background-color: aqua;
+}
+
+.calculator .operator {
+    background-color: brown;
 }
