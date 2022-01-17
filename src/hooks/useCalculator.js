@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-//move all action handler into this file
 const useCalculator = () => {
   const [result, setResult] = useState(0);
   const [number, setNumber] = useState(0);
@@ -8,6 +7,7 @@ const useCalculator = () => {
 
   const operationAction = (operatorValue) => {
     setOperator(operatorValue);
+
     setNumber((prev) => {
       setResult((prevResult) => {
         return prev ? prev : prevResult; //might want to revisit this
@@ -18,7 +18,6 @@ const useCalculator = () => {
 
   const setEqualAction = () => {
     let tempResult = 0;
-
     switch (operator) {
       case '+':
         tempResult = Number(result) + Number(number);
@@ -57,16 +56,19 @@ const useCalculator = () => {
       return temp;
     });
   };
+
   const addingDecimalToValue = () => {
     setNumber((prev) => {
       return !prev.toString().includes('.') ? prev + '.' : prev;
     });
   };
+
   const clearValue = () => {
     setNumber(0);
     setResult(0);
     setOperator('');
   };
+
   return {
     number,
     result,
