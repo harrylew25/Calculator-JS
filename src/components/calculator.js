@@ -51,7 +51,7 @@ const Calculator = () => {
 
   return (
     <Fragment>
-      <h1>This is my calculator</h1>
+      <h1>Simple calculator</h1>
       <div className={classes.calculator}>
         <div>
           <div className={classes.inputDisplay}>
