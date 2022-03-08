@@ -1,78 +1,57 @@
 import React from 'react';
-import { Fragment } from 'react/cjs/react.production.min';
-import classes from './calculator.module.css';
-import CalculatorButton from './calculatorButton';
-import useCalculator from '../hooks/useCalculator';
-import Constants from './constants';
+import './calculator.css';
+import DigitButton from './DigitButton';
+import OperationButton from './OperationButton';
+import useCalculator, { ACTIONS } from '../hooks/useCalculator';
 
 const Calculator = () => {
   const {
-    number: newNumber,
-    result: newResult,
-    setEqualAction,
-    setNumberAction,
-    operationAction: setOperationAction,
-    addingDecimalToValue: setDecimalAcion,
-    clearValue,
+    currentResult,
+    prevResult,
+    operator,
+    equation,
+    dispatch,
+    formatNumber,
   } = useCalculator();
 
-  const operatorHandler = (event) => {
-    event.preventDefault();
-    setOperationAction(event.target.value);
-  };
-
-  const equalButtonHandler = (event) => {
-    event.preventDefault();
-    setEqualAction();
-  };
-  const clearValueHandler = (event) => {
-    event.preventDefault();
-    clearValue();
-  };
-
-  const numberButtonHandler = (event) => {
-    event.preventDefault();
-    setNumberAction(event.target.value);
-  };
-
-  const decimalPointButtonHandler = (event) => {
-    event.preventDefault();
-    setDecimalAcion();
-  };
-
-  const calculatorButtons = Constants.calculatorButtons;
-  const handlersObject = {
-    operatorHandler,
-    equalButtonHandler,
-    clearValueHandler,
-    numberButtonHandler,
-    decimalPointButtonHandler,
-  };
-
   return (
-    <Fragment>
-      <h1>Simple calculator</h1>
-      <div className={classes.calculator}>
-        <div>
-          <div className={classes.inputDisplay}>
-            {newNumber || newNumber === 0 ? newNumber : newResult}
-          </div>
-
-          <div className={classes.buttonContainer}>
-            {calculatorButtons.map((button) => {
-              return (
-                <CalculatorButton
-                  key={button.value}
-                  value={button.value}
-                  onClick={handlersObject[button.onClick]}
-                  className={classes[button.className]}
-                />
-              );
-            })}
-          </div>
+    <div className="calculator-grid">
+      <div className="output">
+        <div className="previous-operand">
+          {equation != null
+            ? equation
+            : prevResult === null
+            ? ''
+            : `${formatNumber(prevResult)} ${operator}`}
         </div>
+        <div className="current-operand">{formatNumber(currentResult)}</div>
       </div>
-    </Fragment>
+      <button onClick={() => dispatch({ type: ACTIONS.ALL_CLEAR })}>AC</button>
+      <button onClick={() => dispatch({ type: ACTIONS.CLEAR })}>C</button>
+      <button onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}>
+        DEL
+      </button>
+      <button onClick={() => dispatch({ type: ACTIONS.NEGATE })}>+/-</button>
+      <DigitButton digit="7" dispatch={dispatch} />
+      <DigitButton digit="8" dispatch={dispatch} />
+      <DigitButton digit="9" dispatch={dispatch} />
+      <OperationButton operator="/" dispatch={dispatch} />
+
+      <DigitButton digit="4" dispatch={dispatch} />
+      <DigitButton digit="5" dispatch={dispatch} />
+      <DigitButton digit="6" dispatch={dispatch} />
+      <OperationButton operator="*" dispatch={dispatch} />
+
+      <DigitButton digit="1" dispatch={dispatch} />
+      <DigitButton digit="2" dispatch={dispatch} />
+      <DigitButton digit="3" dispatch={dispatch} />
+      <OperationButton operator="-" dispatch={dispatch} />
+
+      <DigitButton digit="0" dispatch={dispatch} />
+      <DigitButton digit="." dispatch={dispatch} />
+      <button onClick={() => dispatch({ type: ACTIONS.EVALUATE })}>=</button>
+      <OperationButton operator="+" dispatch={dispatch} />
+    </div>
   );
 };
 
