@@ -10,9 +10,9 @@
 
 
 ## Screenshots
-version 1 of the calculator
-![Calculator image](./src/assets/calculator-v2.png)
-version 0 of the calculator
+version 1 of the calculator\
+![Calculator image](./src/assets/calculator-v2.png)\
+version 0 of the calculator\
 ![Calculator image](./src/assets/calculator-v1.png)
 
 
@@ -28,7 +28,7 @@ Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ## Project Status
-This project is: _in progress_
+This project is: not working on this anymore.
 
 ## Future Plans
 Room for improvement:
